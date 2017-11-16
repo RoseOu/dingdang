@@ -133,23 +133,24 @@ login_manager.anonymous_user = AnonymousUser
 class Book(db.Model):
     __tablename__ = 'books'
     id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(192))
-    author = db.Column(db.String(192))
-    translator = db.Column(db.String(192))
-    market_price = db.Column(db.Float)
-    selling_price = db.Column(db.Float)
-    press = db.Column(db.String(192))
-    edition = db.Column(db.Integer,default=1)
-    publication_time = db.Column(db.String(128))
-    version = db.Column(db.String(64))
-    series = db.Column(db.String(64))
-    middlecategory = db.relationship('MiddleCategory', backref='book', lazy='dynamic')
-    language = db.Column(db.String(64))
-    binding = db.Column(db.String(64))
-    introduction = db.Column(db.Text)
-    catalog = db.Column(db.Text)
-    inventory = db.Column(db.Integer)
-    number = db.Column(db.String(64))
+    name = db.Column(db.String(192))   #书名
+    author = db.Column(db.String(192))  #作者
+    translator = db.Column(db.String(192))  #译者
+    market_price = db.Column(db.Float)   #市场价
+    selling_price = db.Column(db.Float)  #售价
+    press = db.Column(db.String(192))  #出版社
+    edition = db.Column(db.Integer,default=1)   #出版次
+    publication_time = db.Column(db.String(128))   #出版时间
+    version = db.Column(db.String(64))    #版本
+    series = db.Column(db.String(64))    #系列
+    category = db.Column(db.Integer)
+    #middlecategory = db.relationship('MiddleCategory', backref='book', lazy='dynamic')
+    language = db.Column(db.String(64))  #语言
+    binding = db.Column(db.String(64))   #装帧
+    introduction = db.Column(db.Text)   #内容简介
+    catalog = db.Column(db.Text)      #目录
+    inventory = db.Column(db.Integer)   #库存量
+    number = db.Column(db.String(64))   #货号
     image = db.relationship('Image', backref='book', lazy='dynamic')
     purchase =  db.relationship('Purchase', backref='book', lazy='dynamic')
     collect = db.relationship('Collect', backref='book', lazy='dynamic')

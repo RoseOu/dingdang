@@ -16,7 +16,7 @@ def register():
         db.session.commit()
         user_id=User.query.filter_by(email=email).first().id
         return jsonify({
-            "created":user_id
+            "uid":user_id
             })
 
 @api.route('/login/', methods=['POST'])
@@ -52,5 +52,4 @@ def admin_login():
             "uid":user.id,
             "token":token,
             })
-
 
