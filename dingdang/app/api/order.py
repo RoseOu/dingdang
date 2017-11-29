@@ -133,6 +133,7 @@ def get_order():
         count = Order.query.filter_by(status=status).count()
     order_list = [{
         "order_id":o.id,
+        "number":o.number,
         "user_id":o.user_id,
         "freight":o.freight,
         "paynumber":o.paynumber,
