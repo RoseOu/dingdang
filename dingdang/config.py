@@ -19,8 +19,9 @@ class Config:
 
 class DevelopmentConfig(Config):
     """development configuration"""
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "data-dev.sqlite")
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DINGDANG_MYSQL_URI')
+    #SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "data-dev.sqlite")
 
 class TestingConfig(Config):
     """testing configuration"""
