@@ -6,8 +6,110 @@ from app import db
 from app.models import User,Book
 from app.decorators import admin_required
 
+@api.route('/book/', methods=["GET"])
+def list_book():
+    category = int(request.args.get("category"))
+    page = int(request.args.get('page'))
+    num = int(request.args.get('num')) if request.args.get('num') else 10
+    if category == 0:
+        book = Book.query.order_by(Book.sale.desc()).limit(num).offset((page-1)*num)
+        count = Book.query.count()
+    else:
+        book = Book.query.filter_by(category=category).order_by(Book.sale.desc()).limit(num).offset((page-1)*num)
+        count = Book.query.filter_by(category=category).count()
+    book_list = [{
+        "book_id":b.id,
+        "name":b.name,
+        "author":b.author,
+        "translator":b.translator,
+        "market_price":b.market_price,
+        "selling_price":b.selling_price,
+        "press":b.press,
+        "edition":b.edition,
+        "publication_time":b.publication_time,
+        "version":b.version,
+        "series":b.series,
+        "category":b.category,
+        "language":b.language,
+        "binding":b.binding,
+        "introduction":b.introduction,
+        "catalog":b.catalog,
+        "inventory":b.inventory,
+        "number":b.number,
+        "sale":b.sale,
+        "image":b.image_url
+       } for b in book]
+    return jsonify({
+        "book":book_list,
+        "count":count
+        })
+
+@api.route('/search/', methods=["GET"])
+def search_book():
+    body = request.args.get("body")
+    category = int(request.args.get("category"))
+    page = int(request.args.get('page'))
+    num = int(request.args.get('num')) if request.args.get('num') else 10
+    if category==0:
+        book = Book.query.filter(Book.name.like('%'+body+'%')).order_by(Book.sale.desc()).limit(num).offset((page-1)*num)
+        count = Book.query.filter(Book.name.like('%'+body+'%')).count()
+    else:
+        book = Book.query.filter_by(category=category).filter(Book.name.like('%'+body+'%')).order_by(Book.sale.desc()).limit(num).offset((page-1)*num)
+        count = Book.query.filter_by(category=category).filter(Book.name.like('%'+body+'%')).count()
+    book_list = [{
+        "book_id":b.id,
+        "name":b.name,
+        "author":b.author,
+        "translator":b.translator,
+        "market_price":b.market_price,
+        "selling_price":b.selling_price,
+        "press":b.press,
+        "edition":b.edition,
+        "publication_time":b.publication_time,
+        "version":b.version,
+        "series":b.series,
+        "category":b.category,
+        "language":b.language,
+        "binding":b.binding,
+        "introduction":b.introduction,
+        "catalog":b.catalog,
+        "inventory":b.inventory,
+        "number":b.number,
+        "sale":b.sale,
+        "image":b.image_url
+       } for b in book]
+    return jsonify({
+        "book":book_list,
+        "count":count
+        })
+
+@api.route('/book/<int:id>/', methods=["GET"])
+def get_book(id):
+    book = Book.query.get_or_404(id)
+    return jsonify({
+        "name":book.name,
+        "author":book.author,
+        "translator":book.translator,
+        "market_price":book.market_price,
+        "selling_price":book.selling_price,
+        "press":book.press,
+        "edition":book.edition,
+        "publication_time":book.publication_time,
+        "version":book.version,
+        "series":book.series,
+        "category":book.category,
+        "language":book.language,
+        "binding":book.binding,
+        "introduction":book.introduction,
+        "catalog":book.catalog,
+        "inventory":book.inventory,
+        "number":book.number,
+        "sale":book.sale,
+        "image_url":book.image_url
+        })
 
 #-------------Admin----------------
+
 @api.route('/admin/book/add/', methods=["POST"])
 @admin_required
 def add_book():
@@ -28,18 +130,19 @@ def add_book():
     catalog = request.get_json().get("catalog") if request.get_json().get("catalog") else ""
     inventory = request.get_json().get("inventory") if request.get_json().get("inventory") else 0
     number = request.get_json().get("number") if request.get_json().get("number") else ""
+    image_url = request.get_json().get("image_url") if request.get_json().get("image_url") else ""
     book = Book(name=name,author=author,translator=translator,market_price=market_price,
                 selling_price=selling_price,press=press,edition=edition,
                 publication_time=publication_time,version=version,series=series,
                 language=language,binding=binding,introduction=introduction,
-                catalog=catalog,inventory=inventory,number=number)
-
+                catalog=catalog,inventory=inventory,number=number,image_url=image_url)
     db.session.add(book)
     db.session.commit()
     return jsonify({
-        "id":book.id
+        "book_id":book.id
         })
 
+'''
 @api.route('/admin/book/<int:id>/', methods=["GET"])
 @admin_required
 def get_book(id):
@@ -61,11 +164,13 @@ def get_book(id):
         "introduction":book.introduction,
         "catalog":book.catalog,
         "inventory":book.inventory,
-        "number":book.number
+        "number":book.number,
+        "sale":book.sale,
+        "image_url":book.image_url
         })
+'''
 
-
-@api.route('/admin/book/<int:id>/', methods=["PUT"])
+@api.route('/admin/book/<int:id>/', methods=["POST"])
 @admin_required
 def edit_book(id):
     book = Book.query.get_or_404(id)
@@ -86,10 +191,11 @@ def edit_book(id):
     book.catalog = request.get_json().get("catalog") if request.get_json().get("catalog") else book.catalog
     book.inventory = request.get_json().get("inventory") if request.get_json().get("inventory") else book.inventory
     book.number = request.get_json().get("number") if request.get_json().get("number") else book.number
+    book.image_url = request.get_json().get("image_url") if request.get_json().get("image_url") else book.image_url
     db.session.add(book)
     db.session.commit()
     return jsonify({
-        "id":book.id
+        "book_id":book.id
         })
 
 @api.route('/admin/book/<int:id>/', methods=["DELETE"])
@@ -100,5 +206,5 @@ def delete_book(id):
         db.session.delete(book)
         db.session.commit()
         return jsonify({
-            "id":id
+            "book_id":id
             })

@@ -25,31 +25,36 @@ def edit_profile(id):
     user.security_question = request.get_json().get("security_question") if request.get_json().get("security_question") else user.security_question
     user.security_answer = request.get_json().get("security_answer") if request.get_json().get("security_answer") else user.security_answer
     return jsonify({
-        "id":user.id
+        "user_id":user.id
         })
 
 @api.route('/profile/<int:id>/address/add/', methods=["POST"])
 def add_address(id):
     user = User.query.get_or_404(id)
-    location = request.get_json().get("location") if request.get_json().get("location") else ""
-    phone = request.get_json().get("phone") if request.get_json().get("phone") else ""
-    postcode = request.get_json().get("postcode") if request.get_json().get("postcode") else ""
-    name = request.get_json().get("name") if request.get_json().get("name") else ""
-    ad = [a for a in user.address]
-    is_default = True if ad == [] else False
-    address = Address(location=location,phone=phone,postcode=postcode,
+    if Address.query.filter_by(user_id=id).count() < 10:
+        location = request.get_json().get("location") if request.get_json().get("location") else ""
+        phone = request.get_json().get("phone") if request.get_json().get("phone") else ""
+        postcode = request.get_json().get("postcode") if request.get_json().get("postcode") else ""
+        name = request.get_json().get("name") if request.get_json().get("name") else ""
+        ad = [a for a in user.address]
+        is_default = True if ad == [] else False
+        address = Address(location=location,phone=phone,postcode=postcode,
                       name=name,is_default=is_default,user=user)
-    db.session.add(address)
-    db.session.commit()
-    return jsonify({
-        "id":address.id
-        })
+        db.session.add(address)
+        db.session.commit()
+        return jsonify({
+            "address_id":address.id
+            })
+    else:
+        return jsonify({
+            "address_id":-1
+            })
 
 @api.route('/profile/<int:id>/address/', methods=["GET"])
 def get_address(id):
     user = User.query.get_or_404(id)
     address = [{
-        "id":a.id,
+        "address_id":a.id,
         "location":a.location,
         "phone":a.phone,
         "postcode":a.postcode,
@@ -73,6 +78,6 @@ def set_address(id):
     db.session.add(address)
     db.session.commit()
     return jsonify({
-        "id":address.id
+        "address_id":address.id
         })
 

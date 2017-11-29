@@ -70,10 +70,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(192))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'),default=2)
     password_hash = db.Column(db.String(192))
-    security_question = db.Column(db.String(192))
-    security_answer = db.Column(db.String(192))
-    avatar = db.Column(db.String(192))
-    birthday = db.Column(db.String(128))
+    security_question = db.Column(db.String(192), default="")
+    security_answer = db.Column(db.String(192), default="")
+    avatar = db.Column(db.String(192), default="")
+    birthday = db.Column(db.String(128), default="")
     middlehobby = db.relationship('MiddleHobby', backref='user', lazy='dynamic')
     address = db.relationship('Address', backref='user', lazy='dynamic')
     collect = db.relationship('Collect', backref='user', lazy='dynamic')
@@ -133,17 +133,17 @@ login_manager.anonymous_user = AnonymousUser
 class Book(db.Model):
     __tablename__ = 'books'
     id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(192))   #书名
-    author = db.Column(db.String(192))  #作者
-    translator = db.Column(db.String(192))  #译者
-    market_price = db.Column(db.Float)   #市场价
-    selling_price = db.Column(db.Float)  #售价
-    press = db.Column(db.String(192))  #出版社
-    edition = db.Column(db.Integer,default=1)   #出版次
-    publication_time = db.Column(db.String(128))   #出版时间
-    version = db.Column(db.String(64))    #版本
-    series = db.Column(db.String(64))    #系列
-    category = db.Column(db.Integer)
+    name = db.Column(db.String(192), default="")   #书名
+    author = db.Column(db.String(192), default="")  #作者
+    translator = db.Column(db.String(192), default="")  #译者
+    market_price = db.Column(db.Float, default=0.0)   #市场价
+    selling_price = db.Column(db.Float, default=0.0)  #售价
+    press = db.Column(db.String(192), default="")  #出版社
+    edition = db.Column(db.Integer, default=1)   #出版次
+    publication_time = db.Column(db.String(128),default="")   #出版时间
+    version = db.Column(db.String(64),default="")    #版本
+    series = db.Column(db.String(64),default="")    #系列
+    category = db.Column(db.Integer,default=1)
     #middlecategory = db.relationship('MiddleCategory', backref='book', lazy='dynamic')
     language = db.Column(db.String(64))  #语言
     binding = db.Column(db.String(64))   #装帧
@@ -151,12 +151,15 @@ class Book(db.Model):
     catalog = db.Column(db.Text)      #目录
     inventory = db.Column(db.Integer)   #库存量
     number = db.Column(db.String(64))   #货号
+    sale = db.Column(db.Integer,default=0)  #销量
     image = db.relationship('Image', backref='book', lazy='dynamic')
+    image_url  = db.Column(db.String(192),default="")
     purchase =  db.relationship('Purchase', backref='book', lazy='dynamic')
     collect = db.relationship('Collect', backref='book', lazy='dynamic')
     cart = db.relationship('Cart', backref='book', lazy='dynamic')
     comment = db.relationship('Comment', backref='book', lazy='dynamic')
-    middledetail = db.relationship('MiddleDetail', backref='book', lazy='dynamic')
+    detail = db.relationship('Detail', backref='book', lazy='dynamic')
+    #middledetail = db.relationship('MiddleDetail', backref='book', lazy='dynamic')
 
     def __repr__(self):
         return "<Book %r>" % self.name
@@ -262,14 +265,19 @@ class Comment(db.Model):
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer,primary_key=True)
-    number = db.Column(db.String(64))
-    freight = db.Column(db.Float,default=0)
-    paynumber = db.Column(db.String(64))
-    cost = db.Column(db.Float)
-    create_time = db.Column(db.String(64))
-    pay_time = db.Column(db.String(64))
-    delivery_time = db.Column(db.String(64))
-    deal_time = db.Column(db.String(64))
+    number = db.Column(db.String(64))     #订单编号
+    freight = db.Column(db.Float,default=0)   #运费
+    paynumber = db.Column(db.String(64),default="")      #支付宝交易号
+    cost = db.Column(db.Float)                #订单总价
+    create_time = db.Column(db.String(64),default="")    #创建时间
+    pay_time = db.Column(db.String(64),default="")       #付款时间
+    delivery_time = db.Column(db.String(64),default="")  #发货时间
+    deal_time = db.Column(db.String(64),default="")      #成交时间
+    status = db.Column(db.Integer,default=1)  #1 待付款、2 待发货、3 待收货、4 待评价、5 已完成
+    name = db.Column(db.String(64))   #收货人姓名
+    phone = db.Column(db.String(64))  #收货人电话
+    postcode = db.Column(db.String(64)) #收货人邮编
+    location = db.Column(db.String(128))  #收货人地址
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     detail = db.relationship('Detail', backref='order', lazy='dynamic')
 
@@ -279,14 +287,16 @@ class Order(db.Model):
 class Detail(db.Model):
     __tablename__ = 'details'
     id = db.Column(db.Integer,primary_key=True)
-    count = db.Column(db.Integer)
-    cost = db.Column(db.Float)
+    count = db.Column(db.Integer)    #数量（某一本书的数量）
+    cost = db.Column(db.Float)       #总额
     order_id = db.Column(db.Integer,db.ForeignKey('orders.id'))
-    middledetail = db.relationship('MiddleDetail', backref='detail', lazy='dynamic')
+    book_id = db.Column(db.Integer,db.ForeignKey('books.id'))
+#    middledetail = db.relationship('MiddleDetail', backref='detail', lazy='dynamic')
 
     def __repr__(self):
         return "<Detail %r>" % self.id
 
+'''
 class MiddleDetail(db.Model):
     __tablename__ = 'middledetails'
     id = db.Column(db.Integer,primary_key=True)
@@ -295,4 +305,4 @@ class MiddleDetail(db.Model):
 
     def __repr__(self):
         return "<MiddleDetail %r>" % self.id
-
+'''
