@@ -12,7 +12,7 @@ function get_all(){
 
 		var i;
 		book=res.book
-		document.getElementById("text").innerHTML = book
+		//document.getElementById("text").innerHTML = book
 		for(i=0;i<book.length;i++){
 			// document.getElementById("text").innerHTML = book[i].book_id
 			document.write(book[i].book_id+"<br />")
