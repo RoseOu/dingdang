@@ -9,6 +9,6 @@ fetch('http://120.24.4.254:5455/api/profile/' + id).then(function(res){
     showName.innerHTML = value.email;
 })
 logout.addEventListener('click',function(){
-	document.cookie = ""
+	cookie.delCookie(id);
 	console.log(document.cookie)
 })
