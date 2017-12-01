@@ -142,33 +142,6 @@ def add_book():
         "book_id":book.id
         })
 
-'''
-@api.route('/admin/book/<int:id>/', methods=["GET"])
-@admin_required
-def get_book(id):
-    book = Book.query.get_or_404(id)
-    return jsonify({
-        "name":book.name,
-        "author":book.author,
-        "translator":book.translator,
-        "market_price":book.market_price,
-        "selling_price":book.selling_price,
-        "press":book.press,
-        "edition":book.edition,
-        "publication_time":book.publication_time,
-        "version":book.version,
-        "series":book.series,
-        "category":book.category,
-        "language":book.language,
-        "binding":book.binding,
-        "introduction":book.introduction,
-        "catalog":book.catalog,
-        "inventory":book.inventory,
-        "number":book.number,
-        "sale":book.sale,
-        "image_url":book.image_url
-        })
-'''
 
 @api.route('/admin/book/<int:id>/', methods=["POST"])
 @admin_required

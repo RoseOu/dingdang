@@ -4,7 +4,11 @@ from flask import render_template
 
 
 # test views
-@main.route('/test/')
-def test():
-    return "<h1>just tell you everything is ok!</h1>"
+@main.route('/')
+def home():
+    return render_template('main/home.html')
+
+@main.route('/login/')
+def login():
+    return render_template('main/login.html')
 
