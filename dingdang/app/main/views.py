@@ -6,7 +6,7 @@ from flask import render_template
 # test views
 @main.route('/')
 def home():
-    return render_template('main/home.html')
+    return render_template('main/index.html')
 
 @main.route('/login/')
 def login():
