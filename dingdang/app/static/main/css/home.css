@@ -1,0 +1,46 @@
+#category{
+	width:13%;
+	height: 400px;
+	position: relative;
+	float: left;
+	text-align: center;
+	border: 2px solid dimgrey;
+/*	background-color: burlywood;*/
+}
+
+button{
+	width:100px;
+	height:20px;
+}
+
+#body{
+	width:70%;
+	height: 3000px;
+	border: 2px solid dimgrey;	
+	position: relative;
+	left: 20px;
+	float: left;
+	text-align: center;
+/*	background-color: cadetblue;*/
+/*	top: 10px;*/
+}
+
+
+
+.book{
+	border: 2px solid dimgrey;	
+	width: 70%;
+	/*height:15px;*/
+	font:1em arial;
+	margin: 5%;
+	padding: 5%;
+/*	margin:auto;*/
+	text-align: left;
+	position: relative;
+	background-color:darkgray;
+	float: left;
+	clear:both;
+	
+/*	top: 10px;*/
+}
+

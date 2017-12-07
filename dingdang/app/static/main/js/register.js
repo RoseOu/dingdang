@@ -1,9 +1,11 @@
+
 var pwd = document.getElementById('pwd');
 var email = document.getElementById('email');
+var username = document.getElementById('username');
 var id;
 var submit = document.getElementById('submit');
 submit.addEventListener('click', function() {
-    fetch("http://120.24.4.254:5455/api/login/", {
+    fetch("http://120.24.4.254:5455/api/register/", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -11,7 +13,8 @@ submit.addEventListener('click', function() {
         },
         body: JSON.stringify({
             email: email.value,
-            password: pwd.value
+            password: pwd.value,
+            username: username.value
         })
     }).then(res => {
         if (res.ok)
@@ -19,10 +22,6 @@ submit.addEventListener('click', function() {
         else
             console.log("error");
     }).then(value => {
-        cookie.setCookie("id", value.user_id)
-        cookie.setCookie("token",value.token)
-        id = value.user_id
-        console.log("id = ", id)
-        window.location = "http://127.0.0.1:5000/main/home/"
+        window.location = "http://120.24.4.254:5455/main/login/"
     })
 })

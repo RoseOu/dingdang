@@ -1,13 +1,37 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<title>home</title>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="../../static/main/css/home.css" />
 	</head>
 	<body>
+  		<header class="header">
+        	<div class="top-menu">
+        		<ul class="nav">
+        			<button id="register">Register</button>
+                	<button id="login">LogIn</button>
+        		</ul>
+        	</div>
+    	</header>
+    	<div id="search-box">
+    		    <input type="text" id="search-text"><button id="search-button">搜索</button>
+    		    <select id="select-category">
+    		    	<option value="0">全部</option>
+  					<option value="1">文学</option>
+  					<option value="2">漫画</option>
+ 	 				<option value="3">教材</option>
+				</select>
+    	</div>
+		<div id="category">
+			<button id="all">全部</button><br />
+			<button id="category1">文学</button><br />
+			<button id="category2">漫画</button><br />
+			<button id="category3">教材</button><br />
+		</div>
+		<div id="body">
+		</div>
 		<script type="text/javascript" src="../../static/main/js/home.js"></script>
-		<button name="all" onclick="get_all()">all</button>
-		<p id="text1"></p>
-		
 	</body>
 </html>

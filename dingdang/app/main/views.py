@@ -16,3 +16,10 @@ def index():
 def login():
     return render_template('main/login.html')
 
+@main.route('/register/')
+def register():
+    return render_template('main/register.html')
+
+# @main.route('/book/')
+# def book():
+#     return render_template('main/book.html')

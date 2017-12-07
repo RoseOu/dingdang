@@ -87,6 +87,7 @@ def search_book():
 def get_book(id):
     book = Book.query.get_or_404(id)
     return jsonify({
+        "id":book.id,
         "name":book.name,
         "author":book.author,
         "translator":book.translator,
