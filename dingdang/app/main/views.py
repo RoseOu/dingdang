@@ -20,6 +20,14 @@ def login():
 def register():
     return render_template('main/register.html')
 
-# @main.route('/book/')
-# def book():
-#     return render_template('main/book.html')
+@main.route('/book/<int:id>/')
+def book(id):
+    return render_template('main/book.html')
+
+@main.route('/profile/<int:id>/')
+def profile(id):
+    return render_template('main/profile.html')
+
+@main.route('/mycart/')
+def mycart():
+    return render_template('main/mycart.html')

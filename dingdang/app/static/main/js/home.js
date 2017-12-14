@@ -15,6 +15,9 @@ category3.addEventListener('click', get_book.bind(window,url_category3))
 
 var register = document.getElementById("register")
 var login = document.getElementById("login")
+var profile = document.getElementById("profile")
+var mycart = document.getElementById("mycart")
+var myorder = document.getElementById("myorder")
 
 register.addEventListener('click', function(){
 	window.location = "http://120.24.4.254:5455/main/register/"
@@ -22,6 +25,18 @@ register.addEventListener('click', function(){
 login.addEventListener('click', function(){
 	window.location = "http://120.24.4.254:5455/main/login/"
 })
+//var id = cookie.getCookie('id');
+var id=2;
+profile.addEventListener('click', function(){
+	window.location = "http://120.24.4.254:5455/main/profile/"+id+"/"
+})
+mycart.addEventListener('click', function(){
+	window.location = "http://120.24.4.254:5455/main/mycart/"
+})
+myorder.addEventListener('click', function(){
+	window.location = "http://120.24.4.254:5455/main/myorder/"
+})
+
 
 var search_button = document.getElementById("search-button")
 
@@ -64,7 +79,7 @@ function get_book(url){
 
 			var name=document.createElement("a")
 			name.setAttribute("id","name") 
-			name.setAttribute("href","http://120.24.4.254:5455/main/book/"+book[i].book_id+"/") 
+			name.setAttribute("href","../book/"+book[i].book_id+"/") 
 			var name_node=document.createTextNode(book[i].name)
 			name.appendChild(name_node)
 			div.appendChild(name)
