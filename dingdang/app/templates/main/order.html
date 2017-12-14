@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<title>我的订单</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<style type="text/css">
+			#category{
+				width:13%;
+				height: 400px;
+				position: relative;
+				float: left;
+				text-align: center;
+				border: 2px solid dimgrey;
+			}
+			#body{  /*id*/
+				width:70%;
+				height: 3000px;
+				border: 2px solid dimgrey;	
+				position: relative;
+				left: 20px;
+				float: left;
+				text-align: center;
+			}
+
+			.order{  
+				border: 2px solid dimgrey;	
+				width: 70%;
+				/*height:15px;*/
+				font:1em arial;
+				margin: 5%;
+				padding: 5%;
+			/*	margin:auto;*/
+				text-align: left;
+				position: relative;
+				background-color:darkgray;
+				float: left;
+				clear:both;
+			}
+		</style>
+	</head>
+	<body>
+  		<header class="header">
+        	<div class="top-menu">
+        		<ul class="nav">
+        			<button id="back">返回</button>
+        		</ul>
+        	</div>
+    	</header>
+		<div id="category">
+			<button id="all">全部</button><br />
+			<button id="status1">待付款</button><br />
+			<button id="status2">待发货</button><br />
+			<button id="status3">待收货</button><br />
+			<button id="status5">已完成</button><br />
+		</div>
+		<div id="body">
+		</div>
+		<script type="text/javascript" src="../../static/main/js/order.js"></script>
+	</body>
+</html>

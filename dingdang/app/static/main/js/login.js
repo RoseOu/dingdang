@@ -23,6 +23,6 @@ submit.addEventListener('click', function() {
         cookie.setCookie("token",value.token)
         id = value.user_id
         console.log("id = ", id)
-        window.location = "http://127.0.0.1:5000/main/home/"
+        window.location = "http://120.24.4.254:5455/main/home/"
     })
 })

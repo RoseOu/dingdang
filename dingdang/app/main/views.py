@@ -31,3 +31,11 @@ def profile(id):
 @main.route('/mycart/')
 def mycart():
     return render_template('main/mycart.html')
+
+@main.route('/order/')
+def order():
+    return render_template('main/order.html')
+
+@main.route('/order/<int:id>/')
+def orderdetail(id):
+    return render_template('main/orderdetail.html')
